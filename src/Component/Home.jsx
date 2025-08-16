@@ -85,7 +85,7 @@ function Home() {
       {/* Hero Section */}
       <section
         className="relative w-full h-[90vh] flex items-center  justify-center top-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-800 text-white px-6 bg-cover bg-center"
-        style={{ backgroundImage: `url(../src/assets/NRI-Property.jpg)` }}
+        style={{ backgroundImage: `url(https://www.icicibank.com/content/dam/icicibank/icici-assets/nri-edge/16_sale-of-immovable-property-in-india-by-an-nri.webp)` }}
       >
         <div className="max-w-4xl flex flex-col gap-8 text-center">
           <motion.h1
