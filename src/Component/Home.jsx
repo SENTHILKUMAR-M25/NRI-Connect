@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import propertyImg from "../assets/property.jpg";
-import serviceImg from "../assets/service.jpg";
-import communityImg from "../assets/comminity.jpg";
-import Homeimg from '../assets/NRI-Property.jpg'
+import propertyImg from "../../public/images/property.jpg";
+import serviceImg from "../../public/images/service.jpg";
+import communityImg from "../../public/images/comminity.jpg";
+import Homeimg from '../../public/images/NRI-Property.jpg'
 function Home() {
   const user = useSelector((state) => state.userinfo.user);
 
