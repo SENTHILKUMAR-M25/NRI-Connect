@@ -2,14 +2,17 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import propertyImg from "../assets/property.jpg";
+import serviceImg from "../assets/service.jpg";
+import communityImg from "../assets/comminity.jpg";
+import Homeimg from '../assets/NRI-Property.jpg'
 function Home() {
   const user = useSelector((state) => state.userinfo.user);
 
   const support = [
     {
       id: 1,
-      img: "url(../src/assets/property.jpg)",
+      img: `url(${propertyImg})`,
       svg: (
         <svg
           className="w-7 h-7 text-blue-600"
@@ -31,7 +34,7 @@ function Home() {
     },
     {
       id: 2,
-      img: "url(../src/assets/service.jpg)",
+      img:`url(${serviceImg})`,
       svg: (
         <svg
           className="w-7 h-7 text-green-600"
@@ -68,7 +71,7 @@ function Home() {
           />
         </svg>
       ),
-      img: "url(../src/assets/comminity.jpg)",
+      img: `url(${communityImg})`,
       head: "Community Support",
       disc: "Connect with other NRIs, share experiences, and get advice on living abroad while managing assets in India.",
       link: "",
@@ -85,7 +88,7 @@ function Home() {
       {/* Hero Section */}
       <section
         className="relative w-full h-[90vh] flex items-center  justify-center top-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-800 text-white px-6 bg-cover bg-center"
-        style={{ backgroundImage: `url(https://sbnri.com/blog/wp-content/uploads/2023/05/NRI-Property.jpg)` }}
+        style={{ backgroundImage: `url(${Homeimg})` }}
       >
         <div className="max-w-4xl flex flex-col gap-8 text-center">
           <motion.h1

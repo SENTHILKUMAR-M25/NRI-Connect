@@ -35,11 +35,11 @@ function Navbar() {
     <motion.header
       style={{ boxShadow, height }}
       transition={{ type: "spring", stiffness: 120, damping: 20 }}
-      className="block h-3.5  w-full max-w-screen-lg px-4 py-1 mx-auto rounded-lg bg-opacity-90 sticky top-3 shadow lg:px-8 lg:py-3 backdrop-blur-lg backdrop-saturate-150 z-[9999]"
+      className="fixed top-0 left-0 w-full px-4 py-1 rounded-lg bg-opacity-90 shadow lg:px-8 lg:py-3 backdrop-blur-lg backdrop-saturate-150 z-[9999]"
     >
       <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
-        <h1 className="mr-4  cursor-pointer py-2 text-xl  font-semibold bg-gradient-to-r from-blue-600 via-green-500 to-red-400 inline-block text-transparent   bg-clip-text">
-          <Link to='/'>  NRI_Connect</Link>
+        <h1 className="mr-4 cursor-pointer py-2 text-xl font-semibold bg-gradient-to-r from-blue-600 via-green-500 to-red-400 inline-block text-transparent bg-clip-text">
+          <Link to='/'>NRI_Connect</Link>
         </h1>
 
         {/* Desktop Navigation */}
@@ -85,10 +85,10 @@ function Navbar() {
               )}
             </span>
           </button>
-          <button 
-          type="button" 
-          class="text-blue-700 font-bold bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" 
-          onClick={user ? logout : nav}
+          <button
+            type="button"
+            class="text-blue-700 font-bold bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            onClick={user ? logout : nav}
           >
             {user ? "logout" : "Login"}
 
