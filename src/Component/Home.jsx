@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import propertyImg from "../../public/images/property.jpg";
 import serviceImg from "../../public/images/service.jpg";
 import communityImg from "../../public/images/comminity.jpg";
-import Homeimg from '../../public/images/NRI-Property.jpg'
+import home1 from '../../public/Home/Home1.jpg'
+import home2 from '../../public/Home/Home2.jpg'
+import home3 from '../../public/Home/Home3.jpg'
+import home4 from '../../public/Home/Home4.jpg'
+import home5 from '../../public/Home/Home5.jpg'
+
+
 function Home() {
   const user = useSelector((state) => state.userinfo.user);
-
+  const home = [home1, home2, home3, home4,home5]
   const support = [
     {
       id: 1,
@@ -34,7 +40,7 @@ function Home() {
     },
     {
       id: 2,
-      img:`url(${serviceImg})`,
+      img: `url(${serviceImg})`,
       svg: (
         <svg
           className="w-7 h-7 text-green-600"
@@ -77,22 +83,35 @@ function Home() {
       link: "",
     },
   ];
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const fadeUp = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % home.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [home.length]);
 
   return (
-    <div className="relative max-h-screen w-full bg-gray-50 font-sans">
-      {/* Hero Section */}
+//${home[currentImageIndex]}
+    <div className="relative w-full bg-gray-50 font-sans">
+
       <section
-        className="relative w-full h-[90vh] flex items-center  justify-center top-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-800 text-white px-6 bg-cover bg-center"
-        style={{ backgroundImage: `url(${Homeimg})` }}
+        className="relative w-full  h-[100vh] -fit flex items-center justify-center text-white px-4 sm:px-6 bg-cover bg-center transition-all duration-1000 ease-in-out"
+        style={{ backgroundImage: `url(${home[currentImageIndex]})` }}
       >
-        <div className="max-w-4xl flex flex-col gap-8 text-center">
+        {/* Overlay with gradient */}
+        <div className="absolute inset-0 bg-black/60"></div>
+
+        {/* Content */}
+        <div className="relative max-w-4xl flex flex-col gap-6 sm:gap-7 md:gap-8 text-center">
           <motion.h1
-            className=" bg-gradient-to-r from-red-600 via-green-500 to-orange-500 inline-block text-transparent w-full text-3xl lg:text-5xl font-bold bg-clip-text" variants={fadeUp}
+            className="bg-gradient-to-r from-red-600 via-green-500 to-orange-500 inline-block text-transparent w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text"
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             transition={{ duration: 0.6 }}
@@ -102,7 +121,7 @@ function Home() {
           </motion.h1>
 
           <motion.p
-            className="text-lg text-blue-600 font-bold md:text-xl mb-10 max-w-2xl mx-auto opacity-90"
+            className="text-base sm:text-lg md:text-xl text-blue-100 font-bold max-w-2xl mx-auto px-2 sm:px-0"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -113,44 +132,52 @@ function Home() {
             properties and services in India.
           </motion.p>
 
+
+
           <motion.div
-            className="flex flex-wrap gap-8 justify-center"
+            className="flex flex-wrap justify-evenly gap-4 sm:gap-5 md:gap-6 mt-4 w-full max-w-3xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ staggerChildren: 0.15 }}
           >
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/service"
-              ><button type="button"
-                className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                  Explore service</button>
+            <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
+              <Link to="/service" className="block w-full">
+                <button
+                  type="button"
+                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                >
+                  Explore Service
+                </button>
               </Link>
             </motion.div>
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/hiring">
-                <button type="button"
-                  className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Hiring</button>
+            <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
+              <Link to="/hiring" className="block w-full">
+                <button
+                  type="button"
+                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                >
+                  Hiring
+                </button>
               </Link>
             </motion.div>
-
-
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/property">
-                <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
+              <Link to="/property" className="block w-full">
+                <button
+                  type="button"
+                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                >
                   Properties
                 </button>
               </Link>
             </motion.div>
-            <motion.div variants={fadeUp}>
-              <Link
-                to="/Employee"  >
-                <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
+              <Link to="/Employee" className="block w-full">
+                <button
+                  type="button"
+                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                >
                   Employees
-
                 </button>
               </Link>
             </motion.div>
@@ -158,13 +185,11 @@ function Home() {
         </div>
       </section>
 
+
       {/* Services Section */}
-      <section
-        className="max-w-6xl mx-auto px-6 py-20"
-        style={{ backgroundImage: `url(../assets/NRI-Property.jpg)` }}
-      >
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16 lg:py-20">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold text-center mb-14 text-gray-800"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-12 md:mb-14 text-gray-800"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -174,11 +199,11 @@ function Home() {
           Comprehensive Solutions for NRIs
         </motion.h2>
 
-        <div className="container mx-auto px-6 py-12 space-y-12  ">
+        <div className="space-y-10 sm:space-y-12 md:space-y-14">
           {support.map((item, index) => (
             <div
               key={item.id}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gray-300 p-6 rounded-lg "
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center bg-white p-5 sm:p-6 md:p-7 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               {/* Text with animation */}
               <motion.div
@@ -186,20 +211,19 @@ function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 viewport={{ once: true }}
-                className={`space-y-4 ${index % 2 !== 0 ? "md:order-2" : "md:order-1"
-                  }`}
+                className={`space-y-4 ${index % 2 !== 0 ? "md:order-2" : "md:order-1"}`}
               >
                 <div className="flex items-center space-x-3">
                   {item.svg}
-                  <h2 className="text-xl font-bold text-red-600">{item.head}</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-red-600">{item.head}</h2>
                 </div>
-                <p className="text-gray-700">{item.disc}</p>
+                <p className="text-gray-700 text-sm sm:text-base">{item.disc}</p>
                 {item.link && (
                   <a
                     href={item.link}
-                    className="text-blue-600 hover:underline font-medium"
+                    className="text-blue-600 hover:underline font-medium text-sm sm:text-base inline-flex items-center"
                   >
-                    Learn More →
+                    Learn More <span className="ml-1">→</span>
                   </a>
                 )}
               </motion.div>
@@ -210,10 +234,12 @@ function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: true }}
-                className={`rounded-lg shadow-lg w-full h-[300px] bg-center bg-cover ${index % 2 !== 0 ? "md:order-1" : "md:order-2"
-                  }`}
-                style={{ backgroundImage: item.img }}
-              ></motion.div>
+                className={`rounded-lg overflow-hidden shadow-lg w-full h-[220px] sm:h-[250px] md:h-[300px] bg-center bg-cover ${index % 2 !== 0 ? "md:order-1" : "md:order-2"}`}
+                style={{ backgroundImage: `url(${item.img})` }}
+              >
+                {/* Image overlay for better text contrast */}
+                <div className="w-full h-full bg-black/10 hover:bg-black/0 transition-all duration-300"></div>
+              </motion.div>
             </div>
           ))}
         </div>
