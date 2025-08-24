@@ -52,6 +52,12 @@ function Navbar() {
     sequence();
   }, [logoControls]);
 
+const text = "NRI_Connect";
+
+const letterAnimation = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
   return (
     <motion.header
       style={{ boxShadow, height }}
@@ -62,37 +68,45 @@ function Navbar() {
 
         {/* Logo */}
         <h1 className="mr-4 cursor-pointer py-2 text-xl font-semibold bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 inline-block text-transparent bg-clip-text">
-          <Link to="/" className="flex gap-2 items-center">
-            {/* Logo Animation */}
-            <motion.img
-              src={logo}
-              alt="Logo"
-              className="h-10"
-              style={{ transformStyle: "preserve-3d" }}
-              initial={{ x: -50, opacity: 0, rotateY: -90 }}
-              animate={{ x: 0, opacity: 1, rotateY: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            />
+           <Link to="/" className="flex gap-2 items-center">
+      {/* Logo Animation */}
+      <motion.img
+        src={logo}
+        alt="Logo"
+        className="h-10"
+        style={{ transformStyle: "preserve-3d" }}
+        initial={{ x: -50, opacity: 0, rotateY: -90 }}
+        animate={{ x: 0, opacity: 1, rotateY: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      />
 
-            {/* Text Animation: Appears after logo */}
-            <motion.span
-              className="text-xl font-semibold"
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-            >
-              NRI_Connect
-            </motion.span>
-          </Link>
+      {/* Letter by Letter Animation */}
+      <motion.span
+        className="text-xl font-semibold flex"
+        initial="hidden"
+        animate="visible"
+        transition={{ staggerChildren: 0.08, delayChildren: 0.8 }} // delay after logo
+      >
+        {text.split("").map((char, index) => (
+          <motion.span
+            key={index}
+            variants={letterAnimation}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            {char}
+          </motion.span>
+        ))}
+      </motion.span>
+    </Link>
         </h1>
 
         {/* Desktop Nav */}
         <div className="hidden lg:block">
           <ul className="flex gap-8 font-medium">
-            <li><Link to="/" className="hover:text-blue-600 transition-colors">Home</Link></li>
-            <li><Link to="/selling" className="hover:text-blue-600 transition-colors">Sell</Link></li>
-            <li><Link to="/service" className="hover:text-blue-600 transition-colors">Service</Link></li>
-            <li><Link to="/contact" className="hover:text-blue-600 transition-colors">Contact</Link></li>
+            <li><Link to="/" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Home</Link></li>
+            <li><Link to="/selling" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Sell</Link></li>
+            <li><Link to="/service" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Service</Link></li>
+            <li><Link to="/contact" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Contact</Link></li>
           </ul>
         </div>
 

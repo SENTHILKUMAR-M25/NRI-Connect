@@ -23,7 +23,7 @@ const handleDelete = (id) => {
 console.log(properties);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto  p-6">
       {/* Title Animation */}
       <motion.h2
         initial={{ opacity: 0, y: -30 }}

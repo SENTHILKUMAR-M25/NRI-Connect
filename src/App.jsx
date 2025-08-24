@@ -17,6 +17,7 @@ import Details from './Component/Details'
 import SignUp from './Component/Forms/SignUp'
 import Footer from './Component/Footer'
 import ContactForm from './Component/ContactForm'
+import FeedbackForm from './Component/Forms/Feedback'
 //  function Admin({children}) {
 //     const user = useSelector(state => state.userinfo.user)
 //     if (user.name === 'senthil' && user.email === 'vs1625@gmail.com') {
@@ -95,6 +96,7 @@ function App() {
             <Route path="/property" element={<Property />} />
             <Route path="/Selling" element={<SellerForm />} />
             <Route path="/contact" element={<ContactForm />} />
+            <Route path="/feedback" element={<FeedbackForm />} />
          
           </Route>
     

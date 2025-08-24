@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 const Details = () => {
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [buyerDetails, setBuyerDetails] = useState({
     name: '',
     email: '',
@@ -16,15 +16,15 @@ const Details = () => {
   const [isSending, setIsSending] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-    const user = useSelector((state) => state.userinfo.user);
+  const user = useSelector((state) => state.userinfo.user);
   const { id } = useParams();
   const property = useSelector((state) =>
     state.property.properties.find((p) => p.id === id) // Removed parseInt since we're using UUID
   );
-  
+
 
   if (!property) return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="p-6 text-center"
@@ -33,19 +33,19 @@ const Details = () => {
       <p className="mt-2 text-gray-500">The property you're looking for doesn't exist or may have been removed.</p>
     </motion.div>
   );
-const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setBuyerDetails(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setBuyerDetails(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
   // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSending(true);
     setErrorMessage('');
@@ -85,10 +85,10 @@ const handleSubmit = async (e) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       animate="visible"
-      className="max-w-7xl mx-auto p-4 md:p-8"
+      className="max-w-7xl relative top-12 mx-auto p-4 md:p-8"
     >
       {/* Main Property Section */}
       <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -102,7 +102,7 @@ const handleSubmit = async (e) => {
                 className="w-full h-96 object-cover rounded-xl shadow-lg mb-4"
               />
             )}
-            
+
             <div className="flex gap-2 overflow-x-auto pb-2">
               {property.media.images.map((img, index) => (
                 <motion.img
@@ -188,26 +188,26 @@ const handleSubmit = async (e) => {
           </div>
 
           {/* Seller Info */}
-                      {user.name === "senthil" && user.email === "vs1625@gmail.com" && (
-          <div className="bg-gray-50 p-4 rounded-lg border">
-            <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-              <FaUser className="text-blue-500" /> Seller Information
-            </h3>
-            <div className="space-y-2">
-              <p className="flex items-center gap-2">
-                <FaUser className="text-gray-500" /> {property.sellerInfo.name}
-              </p>
-              <p className="flex items-center gap-2">
-                <FaPhone className="text-gray-500" /> {property.sellerInfo.phone}
-              </p>
-              <p className="flex items-center gap-2">
-                <FaEnvelope className="text-gray-500" /> {property.sellerInfo.email}
-              </p>
-            </div>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-              Contact Seller
-            </button>
-          </div>)}
+          {user.name === "senthil" && user.email === "vs1625@gmail.com" && (
+            <div className="bg-gray-50 p-4 rounded-lg border">
+              <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                <FaUser className="text-blue-500" /> Seller Information
+              </h3>
+              <div className="space-y-2">
+                <p className="flex items-center gap-2">
+                  <FaUser className="text-gray-500" /> {property.sellerInfo.name}
+                </p>
+                <p className="flex items-center gap-2">
+                  <FaPhone className="text-gray-500" /> {property.sellerInfo.phone}
+                </p>
+                <p className="flex items-center gap-2">
+                  <FaEnvelope className="text-gray-500" /> {property.sellerInfo.email}
+                </p>
+              </div>
+              <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Contact Seller
+              </button>
+            </div>)}
         </motion.div>
       </div>
 
@@ -236,23 +236,23 @@ const handleSubmit = async (e) => {
           />
         </motion.div>
       )}
-      <button 
-      onClick={() => setShowModal(true)}
-      className=" bg-blue-600 p-2 m-2 rounded-lg w-full hover:text-white " >Book Now</button>
-    {showModal && (
-        <motion.div 
+      <button
+        onClick={() => setShowModal(true)}
+        className=" bg-blue-600 p-2 m-2 rounded-lg w-full hover:text-white " >Book Now</button>
+      {showModal && (
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="fixed inset-0 top-[20%] backdrop-blur-lg bg-opacity-50 flex items-center justify-center z-999999999 p-4"
         >
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
-            className="bg-white rounded-lg p-6 max-w-md w-full"
+            className="bg-white relative top-0 rounded-lg p-6 max-w-md w-full"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold">Booking Request</h3>
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
@@ -265,9 +265,9 @@ const handleSubmit = async (e) => {
                 {successMessage}
               </div>
             ) : (
-              <>
+              <div>
                 <p className="mb-4">Please fill in your details to express interest in this property.</p>
-                
+
                 {errorMessage && (
                   <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
                     {errorMessage}
@@ -330,7 +330,7 @@ const handleSubmit = async (e) => {
                     {isSending ? 'Sending...' : 'Submit Booking Request'}
                   </button>
                 </form>
-              </>
+              </div>
             )}
           </motion.div>
         </motion.div>
