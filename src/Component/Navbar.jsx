@@ -1,134 +1,134 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../slice/User";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
+import logo from "../../public/Home/logo.png";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useSelector((state) => state.userinfo.user);
-  const [MenuOpen, setMenuOpen] = useState(false);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const logoControls = useAnimation();
 
   const logout = () => {
-    dispatch(removeUser());          // Redux cleanup
-    localStorage.removeItem('token'); // Storage cleanup
+    dispatch(removeUser());
+    localStorage.removeItem("token");
   };
+
   const nav = () => {
-    navigate('/login');              // Redirect
-
-  }
- const closeMenu = () => {
-    setIsMenuOpen(false);
+    navigate("/login");
   };
-  // Framer Motion scroll animation
-  const { scrollY } = useScroll();
 
+  const closeMenu = () => setMenuOpen(false);
+
+  // Scroll animations
+  const { scrollY } = useScroll();
   const boxShadow = useTransform(
     scrollY,
     [0, 50],
-    ["0px 0px 0px rgba(0,0,0,0)", "0px 4px 12px rgba(0,0,0,0.2)"]
+    ["0px 0px 0px rgba(0,0,0,0)", "0px 4px 12px rgba(0,0,0,0.15)"]
   );
+  const height = useTransform(scrollY, [0, 50], ["80px", "65px"]);
 
-  const height = useTransform(scrollY, [0, 50], ["80px", "60px"]);
+  // Logo animation
+  useEffect(() => {
+    const sequence = async () => {
+      await logoControls.start({
+        x: window.innerWidth / 2 - 60,
+        scale: 1.5,
+        rotateY: 360,
+        transition: { duration: 2, ease: "easeInOut" },
+      });
+      await logoControls.start({
+        x: 0,
+        scale: 1,
+        rotateY: 720,
+        transition: { duration: 2, ease: "easeInOut" },
+      });
+    };
+    sequence();
+  }, [logoControls]);
 
   return (
-
     <motion.header
       style={{ boxShadow, height }}
       transition={{ type: "spring", stiffness: 120, damping: 20 }}
-      className="fixed top-0 left-0 w-full px-4 py-1 rounded-lg bg-opacity-90 shadow lg:px-8 lg:py-3 backdrop-blur-lg bg-black/40 backdrop-saturate-150 z-[9999]"
+      className="fixed top-0 left-0 w-full px-4 lg:px-8 bg-white/80 backdrop-blur-md backdrop-saturate-150 shadow-sm z-[9999]"
     >
-      <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
-        <h1 className="mr-4 cursor-pointer py-2 text-xl font-semibold bg-gradient-to-r from-blue-600 via-green-500 to-red-400 inline-block text-transparent bg-clip-text">
-          <Link to='/'>NRI_Connect</Link>
+      <div className="container flex items-center justify-between mx-auto text-gray-900">
+
+        {/* Logo */}
+        <h1 className="mr-4 cursor-pointer py-2 text-xl font-semibold bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 inline-block text-transparent bg-clip-text">
+          <Link to="/" className="flex gap-2 items-center">
+            {/* Logo Animation */}
+            <motion.img
+              src={logo}
+              alt="Logo"
+              className="h-10"
+              style={{ transformStyle: "preserve-3d" }}
+              initial={{ x: -50, opacity: 0, rotateY: -90 }}
+              animate={{ x: 0, opacity: 1, rotateY: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+
+            {/* Text Animation: Appears after logo */}
+            <motion.span
+              className="text-xl font-semibold"
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+            >
+              NRI_Connect
+            </motion.span>
+          </Link>
         </h1>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <div className="hidden lg:block">
-          <ul className="flex flex-col gap-2  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-
-            <>
-              <li className="flex items-center p-1 text-sm gap-x-2 text-blue-400">
-                <Link to="/" className="flex items-center hover:text-blue-600 text-lg">Home</Link>
-              </li>
-              <li className="flex items-center p-1 text-sm gap-x-2 ">
-                <Link to="/selling" className="flex items-center hover:text-blue-600 text-lg ">Sell</Link>
-              </li>
-              <li className="flex items-center p-1 text-sm gap-x-2 text-blue-400">
-                <Link to="/service" className="flex items-center hover:text-blue-600 text-lg ">Service</Link>
-              </li>
-              <li className="flex items-center p-1 text-sm gap-x-2 text-blue-400">
-                <Link to="/contact" className="flex items-center hover:text-blue-600 text-lg ">Contact</Link>
-              </li>
-
-            </>
-
+          <ul className="flex gap-8 font-medium">
+            <li><Link to="/" className="hover:text-blue-600 transition-colors">Home</Link></li>
+            <li><Link to="/selling" className="hover:text-blue-600 transition-colors">Sell</Link></li>
+            <li><Link to="/service" className="hover:text-blue-600 transition-colors">Service</Link></li>
+            <li><Link to="/contact" className="hover:text-blue-600 transition-colors">Contact</Link></li>
           </ul>
         </div>
 
-        {/* Mobile Menu Button */}
-
-        <div className="flex gap-1.5 justify-center items-center">
-          <button
-            className="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
-            type="button"
-            onClick={() => setMenuOpen(!MenuOpen)}
-          >
-            <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-              {MenuOpen ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-              )}
-            </span>
+        {/* Mobile Menu + Login */}
+        <div className="flex items-center gap-3">
+          {/* Hamburger */}
+          <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? (
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
           </button>
+
+          {/* Login / Logout */}
           <button
-            type="button"
-            class="text-blue-700 font-bold bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            className="px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-700 transition-all"
             onClick={user ? logout : nav}
           >
-            {user ? "logout" : "Login"}
-
+            {user ? "Logout" : "Login"}
           </button>
         </div>
-
-
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {MenuOpen && (
-        <div className="absolute top-full left-0 mr-3 w-full bg-white shadow-md lg:hidden">
-          <ul className="flex flex-col ">
-            <li 
-            className="flex items-center justify-center p-4 text-sm border-b border-gray-100 gap-x-2 text-slate-600">
-              <Link to="/" 
-              onClick={closeMenu}
-              className="flex items-center justify-center text-black w-full hover:bg-blue-600 py-1 rounded-xl hover:text-white text-center">Home</Link>
-            </li>
-            <li 
-            className="flex items-center p-4 text-sm border-b border-gray-100 gap-x-2 text-slate-600">
-              <Link to="/selling" 
-              onClick={closeMenu}
-              className="flex items-center justify-center text-black w-full hover:bg-blue-600 py-1 rounded-xl hover:text-white text-center">Sell</Link>
-            </li>
-            <li className="flex items-center p-4 text-sm border-b border-gray-100 gap-x-2 text-slate-600">
-              <Link to="/service"
-              onClick={closeMenu} 
-              className="flex items-center justify-center text-black w-full hover:bg-blue-600 py-1 rounded-xl hover:text-white text-center">Service</Link>
-            </li>
-            <li className="flex items-center p-4 text-sm border-b border-gray-100 gap-x-2 text-slate-600">
-              <Link to="/contact"
-              onClick={closeMenu}
-              className="flex items-center justify-center text-black w-full hover:bg-blue-600 py-1 rounded-xl hover:text-white text-center">Contact</Link>
-            </li>
-            <li className="flex items-center p-4 text-sm gap-x-2">
-
-            </li>
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white border-t shadow-md lg:hidden">
+          <ul className="flex flex-col divide-y divide-gray-100">
+            <li><Link to="/" onClick={closeMenu} className="block p-4 text-center hover:bg-blue-50 hover:text-blue-600">Home</Link></li>
+            <li><Link to="/selling" onClick={closeMenu} className="block p-4 text-center hover:bg-blue-50 hover:text-blue-600">Sell</Link></li>
+            <li><Link to="/service" onClick={closeMenu} className="block p-4 text-center hover:bg-blue-50 hover:text-blue-600">Service</Link></li>
+            <li><Link to="/contact" onClick={closeMenu} className="block p-4 text-center hover:bg-blue-50 hover:text-blue-600">Contact</Link></li>
           </ul>
         </div>
       )}

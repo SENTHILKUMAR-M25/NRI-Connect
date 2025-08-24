@@ -1,17 +1,17 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProperty } from "../slice/Property";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+
 export default function PropertyForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.userinfo.user);
 
   const [formData, setFormData] = useState({
-    id:'',
+    id: "",
     basicInfo: {
       propertyType: "Apartment",
       carpetArea: "",
@@ -46,6 +46,11 @@ export default function PropertyForm() {
     },
   });
 
+  // ✅ Set browser tab title
+  useEffect(() => {
+    document.title = "Add Property | NRI-Connect";
+  }, []);
+
   // Handlers
   const handleChange = (e, section, field) => {
     setFormData((prev) => ({
@@ -55,7 +60,9 @@ export default function PropertyForm() {
   };
 
   const handleSingleFile = (e, section, field) => {
-    const fileUrl = URL.createObjectURL(e.target.files[0]);
+    const file = e.target.files[0];
+    if (!file) return;
+    const fileUrl = URL.createObjectURL(file);
     setFormData((prev) => ({
       ...prev,
       [section]: { ...prev[section], [field]: fileUrl },
@@ -74,18 +81,26 @@ export default function PropertyForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!user){
-      navigate('/login')
-      return
+    if (!user) {
+      navigate("/login");
+      return;
     }
-  const propertyWithId = {
-        ...formData,
-        id: uuidv4() // Generates a more robust unique ID
-      };
+
+    // Validation
+    if (!formData.basicInfo.carpetArea || !formData.pricing.sellingPrice) {
+      alert("Please fill required fields like Carpet Area and Selling Price.");
+      return;
+    }
+
+    const propertyWithId = {
+      ...formData,
+      id: uuidv4(),
+    };
     dispatch(addProperty(propertyWithId));
     navigate("/property");
   };
 
+  // Animation
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0 },
@@ -97,23 +112,25 @@ export default function PropertyForm() {
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="max-w-4xl mx-auto p-8 space-y-6 bg-white shadow-lg rounded-xl"
+      className=" relative top-12 max-w-5xl mx-auto p-8 space-y-10 bg-white shadow-2xl rounded-2xl"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
       variants={fadeUp}
       transition={{ duration: 0.6 }}
     >
+      {/* ✅ Main Heading */}
       <motion.h2
-        className="text-3xl font-bold text-center text-blue-600"
+        className="text-4xl font-bold text-center text-blue-700"
         variants={fadeUp}
       >
-        Add New Property
+        Add Property
       </motion.h2>
 
-      {/* BASIC INFO */}
+      {/* ✅ Property Details */}
       <motion.div variants={fadeUp}>
-        <h3 className="text-lg font-semibold mb-3">Basic Info</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2">Property Details</h3>
+        <label className="block font-medium mb-2">Property Type</label>
         <select
           value={formData.basicInfo.propertyType}
           onChange={(e) => handleChange(e, "basicInfo", "propertyType")}
@@ -127,14 +144,15 @@ export default function PropertyForm() {
         <div className="grid md:grid-cols-2 gap-4 mt-4">
           <input
             type="text"
-            placeholder="Carpet Area"
+            placeholder="Carpet Area (sq ft)"
             value={formData.basicInfo.carpetArea}
             onChange={(e) => handleChange(e, "basicInfo", "carpetArea")}
             className={inputClass}
+            required
           />
           <input
             type="text"
-            placeholder="Built Up Area"
+            placeholder="Built Up Area (sq ft)"
             value={formData.basicInfo.builtUpArea}
             onChange={(e) => handleChange(e, "basicInfo", "builtUpArea")}
             className={inputClass}
@@ -176,7 +194,6 @@ export default function PropertyForm() {
           />
         </div>
 
-        {/* Furnishing */}
         <label className="block mt-4 font-medium">Furnishing</label>
         <select
           value={formData.basicInfo.furnishing}
@@ -188,7 +205,6 @@ export default function PropertyForm() {
           <option value="Unfurnished">Unfurnished</option>
         </select>
 
-        {/* Construction Age */}
         <label className="block mt-4 font-medium">Construction Age</label>
         <select
           value={formData.basicInfo.constructionAge}
@@ -203,16 +219,16 @@ export default function PropertyForm() {
 
         <input
           type="text"
-          placeholder="Facing"
+          placeholder="Facing (e.g., East)"
           value={formData.basicInfo.facing}
           onChange={(e) => handleChange(e, "basicInfo", "facing")}
           className={`${inputClass} mt-4`}
         />
       </motion.div>
 
-      {/* PRICING */}
+      {/* ✅ Pricing */}
       <motion.div variants={fadeUp}>
-        <h3 className="text-lg font-semibold mb-3">Pricing</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2">Pricing</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <input
             type="number"
@@ -227,13 +243,14 @@ export default function PropertyForm() {
             value={formData.pricing.sellingPrice}
             onChange={(e) => handleChange(e, "pricing", "sellingPrice")}
             className={inputClass}
+            required
           />
         </div>
       </motion.div>
 
-      {/* MEDIA */}
+      {/* ✅ Media Uploads */}
       <motion.div variants={fadeUp}>
-        <h3 className="text-lg font-semibold mb-3">Media</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2">Media Uploads</h3>
         <label className="block font-medium">Images</label>
         <input
           type="file"
@@ -241,6 +258,19 @@ export default function PropertyForm() {
           onChange={(e) => handleMultipleFiles(e, "media", "images")}
           className={inputClass}
         />
+        {formData.media.images.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {formData.media.images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt="preview"
+                className="w-24 h-24 object-cover rounded-lg shadow"
+              />
+            ))}
+          </div>
+        )}
+
         <input
           type="text"
           placeholder="Video Tour Link"
@@ -248,18 +278,21 @@ export default function PropertyForm() {
           onChange={(e) => handleChange(e, "media", "videoTourLink")}
           className={`${inputClass} mt-4`}
         />
+
         <label className="block font-medium mt-4">Floor Plan Image</label>
         <input
           type="file"
           onChange={(e) => handleSingleFile(e, "media", "floorPlanImage")}
           className={inputClass}
         />
+
         <label className="block font-medium mt-4">Brochure File</label>
         <input
           type="file"
           onChange={(e) => handleSingleFile(e, "media", "brochureFile")}
           className={inputClass}
         />
+
         <label className="block font-medium mt-4">Legal Documents</label>
         <input
           type="file"
@@ -269,9 +302,9 @@ export default function PropertyForm() {
         />
       </motion.div>
 
-      {/* LOCATION */}
+      {/* ✅ Location */}
       <motion.div variants={fadeUp}>
-        <h3 className="text-lg font-semibold mb-3">Location</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2">Location</h3>
         <input
           type="text"
           placeholder="Address"
@@ -281,9 +314,9 @@ export default function PropertyForm() {
         />
       </motion.div>
 
-      {/* SELLER INFO */}
+      {/* ✅ Seller Information */}
       <motion.div variants={fadeUp}>
-        <h3 className="text-lg font-semibold mb-3">Seller Info</h3>
+        <h3 className="text-xl font-semibold mb-4 border-b pb-2">Seller Information</h3>
         <div className="grid md:grid-cols-3 gap-4">
           <input
             type="text"
@@ -309,16 +342,15 @@ export default function PropertyForm() {
         </div>
       </motion.div>
 
+      {/* ✅ Submit Button */}
       <motion.button
         type="submit"
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold w-full hover:bg-blue-700 transition"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.98 }}
-        
+        className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold w-full hover:bg-blue-700 transition"
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
       >
         Submit Property
       </motion.button>
     </motion.form>
   );
 }
-

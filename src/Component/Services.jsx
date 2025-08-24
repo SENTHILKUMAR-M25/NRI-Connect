@@ -54,7 +54,7 @@ export default function Services() {
 
   return (
     <motion.div
-      className="container mx-auto px-4 py-12"
+      className=" relative top-12 container mx-auto px-4 py-12"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}

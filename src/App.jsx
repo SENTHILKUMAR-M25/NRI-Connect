@@ -15,6 +15,8 @@ import Employee from './Component/Employee'
 import { useSelector } from 'react-redux'
 import Details from './Component/Details'
 import SignUp from './Component/Forms/SignUp'
+import Footer from './Component/Footer'
+import ContactForm from './Component/ContactForm'
 //  function Admin({children}) {
 //     const user = useSelector(state => state.userinfo.user)
 //     if (user.name === 'senthil' && user.email === 'vs1625@gmail.com') {
@@ -77,7 +79,7 @@ function App() {
 
 
     <BrowserRouter>
-
+<Navbar  />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
@@ -92,9 +94,15 @@ function App() {
             <Route path="/details/:id" element={<Details />} />
             <Route path="/property" element={<Property />} />
             <Route path="/Selling" element={<SellerForm />} />
+            <Route path="/contact" element={<ContactForm />} />
+         
           </Route>
+    
         </Route>
+
       </Routes>
+           <Footer />
+      
     </BrowserRouter>
  
 
@@ -106,7 +114,7 @@ function App() {
 function LayoutWithNavbar() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Outlet /> 
     </>
   );
