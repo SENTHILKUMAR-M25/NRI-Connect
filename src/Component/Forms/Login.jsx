@@ -45,24 +45,25 @@ const Login = () => {
     }
     
     if (validateForm()) {
+          let role = "user"; // default
+      if (
+      formData.email === "vs1625@gmail.com" &&
+      formData.username === "Senthil" // optional: check username
+    ) {
+
+      role = "admin";
+      console.log(role)
+    }
       dispatch(
         setUser({
           name: formData.username,
-          email: formData.email
+          email: formData.email,
+          role
         })
       );
       navigate('/');
     }
-    if (validateForm()) {
-    let role = "user"; // default
 
-    if (
-      formData.email === "vs1625@gmail.com" &&
-      formData.username === "admin" // optional: check username
-    ) {
-      role = "admin";
-    }
-  };
   }
   const handleChange = (e) => {
     const { name, value } = e.target;

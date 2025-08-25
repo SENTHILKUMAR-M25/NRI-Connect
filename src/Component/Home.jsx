@@ -10,15 +10,18 @@ import home2 from '../../public/Home/Home2.jpg'
 import home3 from '../../public/Home/Home3.jpg'
 import home4 from '../../public/Home/Home4.jpg'
 import home5 from '../../public/Home/Home5.jpg'
+import Buyingservice from '../../public/service/buyingservice.jpg'
+import Homeservice from '../../public/service/homeservice.jpg'
+import Sellingservice from '../../public/service/sellingservice.jpg'
 
 
 function Home() {
   const user = useSelector((state) => state.userinfo.user);
-  const home = [home1, home2, home3, home4,home5]
+  const home = [home1, home2, home3, home4, home5]
   const support = [
     {
       id: 1,
-      img: `url(${propertyImg})`,
+      img: Buyingservice,
       svg: (
         <svg
           className="w-7 h-7 text-blue-600"
@@ -40,7 +43,7 @@ function Home() {
     },
     {
       id: 2,
-      img: `url(${serviceImg})`,
+      img: Homeservice,
       svg: (
         <svg
           className="w-7 h-7 text-green-600"
@@ -62,6 +65,7 @@ function Home() {
     },
     {
       id: 3,
+      img:Sellingservice,
       svg: (
         <svg
           className="w-7 h-7 text-purple-600"
@@ -77,7 +81,7 @@ function Home() {
           />
         </svg>
       ),
-      img: `url(${communityImg})`,
+      img: communityImg,
       head: "Community Support",
       disc: "Connect with other NRIs, share experiences, and get advice on living abroad while managing assets in India.",
       link: "",
@@ -97,28 +101,34 @@ function Home() {
   }, [home.length]);
 
   return (
-//${home[currentImageIndex]}
+    //${home[currentImageIndex]}
     <div className="relative w-full bg-gray-50 font-sans">
 
       <section
-        className="relative w-full  h-[100vh] -fit flex items-center justify-center text-white px-4 sm:px-6 bg-cover bg-center transition-all duration-1000 ease-in-out"
+        className="relative w-full top-14 min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center text-white px-4 sm:px-6 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
         style={{ backgroundImage: `url(${home[currentImageIndex]})` }}
       >
         {/* Overlay with gradient */}
         <div className="absolute inset-0 bg-black/60"></div>
 
         {/* Content */}
-        <div className="relative max-w-4xl flex flex-col gap-6 sm:gap-7 md:gap-8 text-center">
+        <div className="relative max-w-4xl  flex flex-col gap-4 sm:gap-5 md:gap-2 text-center">
           <motion.h1
-            className="bg-gradient-to-r from-red-600 via-green-500 to-orange-500 inline-block text-transparent w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text"
+            className="bg-gradient-to-r pb-3   from-red-600 via-green-500 to-orange-500 inline-block text-transparent w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Your Home Away From Home
+            {user?.name && (
+              <span>
+                {`Hi, ${user.name}`} <br />
+              </span>
+            )}
+            Bridging Distance with Trust
           </motion.h1>
+
 
           <motion.p
             className="text-base sm:text-lg md:text-xl text-blue-100 font-bold max-w-2xl mx-auto px-2 sm:px-0"
@@ -128,8 +138,7 @@ function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Comprehensive solutions for Non-Resident Indians to manage
-            properties and services in India.
+            Living abroad doesn’t mean losing touch. Our comprehensive services keep your property managed, secure, and profitable while you’re away.
           </motion.p>
 
 
@@ -145,28 +154,28 @@ function Home() {
               <Link to="/service" className="block w-full">
                 <button
                   type="button"
-                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                  className="w-full cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
                 >
                   Explore Service
                 </button>
               </Link>
             </motion.div>
-           {user?.role === "admin" && ( 
-            <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
-              <Link to="/hiring" className="block w-full">
-                <button
-                  type="button"
-                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
-                >
-                  Hiring
-                </button>
-              </Link>
-            </motion.div>)}
+            {user?.role === "admin" && (
+              <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
+                <Link to="/hiring" className="block w-full">
+                  <button
+                    type="button"
+                    className="w-full cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                  >
+                    Hiring
+                  </button>
+                </Link>
+              </motion.div>)}
             <motion.div variants={fadeUp} className="flex-1 min-w-[160px] max-w-[220px]">
               <Link to="/feedback" className="block w-full">
                 <button
                   type="button"
-                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                  className="w-full cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
                 >
                   Feedback
                 </button>
@@ -176,7 +185,7 @@ function Home() {
               <Link to="/property" className="block w-full">
                 <button
                   type="button"
-                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                  className="w-full cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
                 >
                   Properties
                 </button>
@@ -186,7 +195,7 @@ function Home() {
               <Link to="/Employee" className="block w-full">
                 <button
                   type="button"
-                  className="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
+                  className="w-full cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs sm:text-sm px-4 py-2.5 text-center transition-all duration-300 transform hover:scale-105"
                 >
                   Employees
                 </button>
@@ -215,6 +224,7 @@ function Home() {
             <div
               key={item.id}
               className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center bg-white p-5 sm:p-6 md:p-7 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              
             >
               {/* Text with animation */}
               <motion.div

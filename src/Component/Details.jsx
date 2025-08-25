@@ -16,12 +16,15 @@ const Details = () => {
   const [isSending, setIsSending] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+   
   const user = useSelector((state) => state.userinfo.user);
   const { id } = useParams();
   const property = useSelector((state) =>
     state.property.properties.find((p) => p.id === id) // Removed parseInt since we're using UUID
   );
-
+const [selectedImage, setSelectedImage] = useState(
+    property?.media?.images[0]||"" 
+  );
 
   if (!property) return (
     <motion.div
@@ -95,12 +98,12 @@ const Details = () => {
         {/* Image Gallery */}
         <motion.div variants={fadeIn}>
           <div className="sticky top-4">
-            {property.media.images.length > 0 && (
-              <img
-                src={property.media.images[0]}
-                alt={property.basicInfo.propertyType}
-                className="w-full h-96 object-cover rounded-xl shadow-lg mb-4"
-              />
+            {selectedImage && (
+          <img
+            src={selectedImage}
+            alt={property.basicInfo.propertyType}
+            className="w-full h-96 object-cover rounded-xl shadow-lg mb-4"
+          />
             )}
 
             <div className="flex gap-2 overflow-x-auto pb-2">
@@ -109,6 +112,7 @@ const Details = () => {
                   key={index}
                   whileHover={{ scale: 1.05 }}
                   src={img}
+                   onClick={() => setSelectedImage(img)} 
                   alt={`Image ${index + 1}`}
                   className="w-20 h-20 md:w-24 md:h-24 object-cover border rounded-lg cursor-pointer"
                 />

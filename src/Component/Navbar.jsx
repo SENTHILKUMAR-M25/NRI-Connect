@@ -103,7 +103,7 @@ const letterAnimation = {
         {/* Desktop Nav */}
         <div className="hidden lg:block">
           <ul className="flex gap-8 font-medium">
-            <li><Link to="/" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Home</Link></li>
+            <li><Link to="/" className="hover:text-blue-600 transition-colors p-2  focus:text-green-500  ">Home</Link></li>
             <li><Link to="/selling" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Sell</Link></li>
             <li><Link to="/service" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Service</Link></li>
             <li><Link to="/contact" className="hover:text-blue-600 transition-colors p-2  focus:text-blue-500  ">Contact</Link></li>
